@@ -11,9 +11,27 @@
 
     <!-- Bootstrap core CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    
+    <style>
+      body {
+        padding-top: 5rem;
+      }
+      .starter-template {
+        padding: 3rem 1.5rem;
+        text-align: center;
+      }
+    </style>
   </head>
-  <body class="">
+  <body class="text-center">
+
+    <main role="main" class="container invisible" id="divNotRegistered">
+      <h1 class="heading-1">Hey there! :)</h1>
+      <p class="lead">We can't seem to find your phone number in record. This could indicate that you are not yet registered for usage of i.M.Here. Do visit our <a href="faq.html">Frequently Asked Questions</a> page for more details on registration.</p>
+      <footer class="container">
+          <hr class="mb-12" >
+          <p class=""><button href="#" class="btn btn-outline-danger" onClick="callLogout()">Logout</button></p>
+          <p class="">&copy; 2017-2019 WTW Fintech Sdn Bhd</p>
+      </footer>
+    </main>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -42,14 +60,21 @@
             console.log("User "+user.phoneNumber+' is logged in.');
             db.collection("users").where("phone","==",user.phoneNumber.substring(1))
             .get().then(function(docu) {
-                console.log("docu is: "+docu.length);
+                
+                let userArray = [];
                 docu.forEach(function(eachDoc) {
+                    userArray.push(eachDoc);
+                });
+
+                console.log("userArray.length is: "+userArray.length)
+                if (userArray.length > 0) {
+                  userArray.forEach(function(eachDoc) {
                     console.log("eachDoc.id is: "+eachDoc.id);
                     db.collection("users").doc(eachDoc.id)
                     .update({
                         lastlogin: lastLoginTimestamp
                     }).then(function() {
-                        console.log("Done update last login");
+                        console.log("Done update last login: "+lastLoginTimestamp);
                         //window.location.replace(pageURL+pageMain);
                     }).catch(function(e) {
                         console.log("Error updating record:", e);
@@ -65,7 +90,12 @@
                     }).catch(function(e) {
                         console.log("Error updating record:", e);
                     });
-                });
+                  })
+                } else {
+                  console.log("Hey.. seems "+user.phoneNumber+" seems not registered.");
+                  $('#divNotRegistered').removeClass('invisible');
+                }
+
             }).catch(function(e) {
                 console.log("Error checking user record in /users/:", e);
             });
