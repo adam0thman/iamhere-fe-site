@@ -135,7 +135,8 @@
     console.log("Params for conducting sessions are: "+userId+" "+orgId+" "+yearMonth);
     db.collection("sessions/"+orgId+"/"+yearMonth+"/")
     .where("session_completed","==",false)
-    .where("session_owner","==",userId)
+    //.where("session_owner","==",userId)
+     // to allow temporary
     .get().then(function(allSessions) {
 
       var tableBody = document.getElementById('allConducting');
