@@ -101,11 +101,11 @@
           }
       }
 
-      db.collection("sessions/"+getParameterByName('o')+"/2019-3/").doc(getParameterByName('d'))
+      db.collection("sessions/"+getParameterByName('o')+"/"+today.getFullYear()+"-"+(today.getMonth()+1)+"/").doc(getParameterByName('d'))
         .onSnapshot(function(docu) {
           //$('#original').html('QR code value (base64): '+window.btoa("sessions/"+getParameterByName('o')+"/2019-3/"+getParameterByName('d')+"|"+docu.data().session_secret));
           //$('#decoded').html('Decoded text is: '+"sessions/"+getParameterByName('o')+"/2019-3/"+getParameterByName('d')+"|<text class=\"text-danger\">"+docu.data().session_secret+"</text>");
-          generateQR(window.btoa("sessions/"+getParameterByName('o')+"/2019-3/"+getParameterByName('d')+"|"+docu.data().session_secret));
+          generateQR(window.btoa("sessions/"+getParameterByName('o')+"/"+today.getFullYear()+"-"+(today.getMonth()+1)+"/"+getParameterByName('d')+"|"+docu.data().session_secret));
           $('#title').html(docu.data().session_name);
           $('#subtitle').html(timeConverter(docu.data().session_start['seconds'])+" - "+timeConverter(docu.data().session_end['seconds']));
       })
@@ -117,7 +117,7 @@
         //document.getElementById("secret").innerHTML = 'Debug info:<br />session_secret is: <text class="text-danger">'+secretText+'</text>';
         //console.log("Text is "+secretText);
 
-        db.collection("sessions/"+getParameterByName('o')+"/2019-3/").doc(getParameterByName('d'))
+        db.collection("sessions/"+getParameterByName('o')+"/"+today.getFullYear()+"-"+(today.getMonth()+1)+"/").doc(getParameterByName('d'))
         .update({
           session_secret: secretText
         }).then(function() {
@@ -158,7 +158,7 @@
 
       }
         
-        db.collection("sessions/"+getParameterByName('o')+"/2019-3/")
+        db.collection("sessions/"+getParameterByName('o')+"/"+today.getFullYear()+"-"+(today.getMonth()+1)+"/")
         .doc(getParameterByName('d'))
         .onSnapshot(function(result) {
 
