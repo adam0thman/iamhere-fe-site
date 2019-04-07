@@ -55,15 +55,14 @@
             <input type="text" class="form-control" id="user-name" placeholder="Eg: Muhammad Bin Abdullah">
           </div>
           <div class="row">
-            <div class="form-group col-sm-6">
-              <label for="user-mobile-country" class="col-form-label">Country Code:</label>
-              <select class="form-control">
-                <option value="60">Malaysia (+60)</option>
-              </select>
-            </div>
-            <div class="form-group col-sm-6">
-              <label for="user-mobile" class="col-form-label">Mobile Number:</label>
-              <input type="text" class="form-control" id="user-mobile" placeholder="Ex: 122557193">
+            <div class="col-auto">
+              <label class="" for="user-mobile-2">Mobile Number:</label>
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">+</div>
+                </div>
+                <input type="text" class="form-control" id="user-mobile-2" placeholder="Ex: 60122557193">
+              </div>
             </div>
           </div> <!-- ./row-->
           <div class="form-group">
@@ -119,15 +118,14 @@
                     <input type="text" class="form-control" id="user-name-2" placeholder="Eg: Muhammad Bin Abdullah">
                   </div>
                   <div class="row">
-                    <div class="form-group col-sm-6">
-                      <label for="user-mobile-country" class="col-form-label">Country Code:</label>
-                      <select class="form-control" disabled>
-                        <option value="60">Malaysia (+60)</option>
-                      </select>
-                    </div>
-                    <div class="form-group col-sm-6">
-                      <label for="user-mobile-2" class="col-form-label">Mobile Number:</label>
-                      <input type="text" class="form-control" id="user-mobile-2" placeholder="Ex: 122557193">
+                    <div class="col-auto">
+                      <label class="" for="user-mobile-2">Mobile Number:</label>
+                      <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">+</div>
+                        </div>
+                        <input type="text" class="form-control" id="user-mobile-2" placeholder="Ex: 60122557193">
+                      </div>
                     </div>
                   </div> <!-- ./row-->
                   <div class="form-group">
@@ -193,18 +191,7 @@
                   </tr>
                 </thead>
                 <tbody id="assignTableBody">
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Larry the Bird</td>
-                  </tr>
+
                 </tbody>
                 </table>
             </div>
@@ -226,6 +213,12 @@
           var modal = $(this)
           modal.find('.modal-title').html('Assign session for <text class="text-primary">' + name + '</text> <small classs="text-muted">(' + uniqueId + ')<small>')
           modal.find('assign_UFE1003').on('click', updateAssignment(mobile))
+
+          db.collection('sessions/UMC/2019-4/').doc("ZQiQQSsr6SCHOI0PfqoB")
+            .get().then(function () {
+              if ()
+          })
+
         })
       </script>
 
