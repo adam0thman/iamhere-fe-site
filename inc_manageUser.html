@@ -102,220 +102,346 @@
 <!--
     MODAL: EDIT User
 -->
-<div class="modal fade" id="modal-edit-user" tabindex="-1" role="dialog" aria-labelledby="modal-edit-user-label"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modal-edit-user-label">Edit user</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="user-name-2" class="col-form-label">Full Name:</label>
-            <input type="text" class="form-control" id="user-name-2" placeholder="Eg: Muhammad Bin Abdullah">
-          </div>
-          <div class="row">
-            <div class="form-group col-sm-6">
-              <label for="user-mobile-country" class="col-form-label">Country Code:</label>
-              <select class="form-control" disabled>
-                <option value="60">Malaysia (+60)</option>
-              </select>
+<div class=" modal fade" id="modal-edit-user" tabindex="-1" role="dialog" aria-labelledby="modal-edit-user-label"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modal-edit-user-label">Edit user</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label for="user-name-2" class="col-form-label">Full Name:</label>
+                    <input type="text" class="form-control" id="user-name-2" placeholder="Eg: Muhammad Bin Abdullah">
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-sm-6">
+                      <label for="user-mobile-country" class="col-form-label">Country Code:</label>
+                      <select class="form-control" disabled>
+                        <option value="60">Malaysia (+60)</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-sm-6">
+                      <label for="user-mobile-2" class="col-form-label">Mobile Number:</label>
+                      <input type="text" class="form-control" id="user-mobile-2" placeholder="Ex: 122557193">
+                    </div>
+                  </div> <!-- ./row-->
+                  <div class="form-group">
+                    <label for="user-id-2" class="col-form-label">Student ID:</label>
+                    <input type="text" class="form-control" id="user-id-2" placeholder="Eg: UMC123456">
+                  </div>
+                  <div class="form-group">
+                    <hr class="mb-4">
+                    <span class="text-muted">This user <text class="text-dark">organization</text> is <holder
+                        class="text-dark" id="txt-org-name-modal-2"></holder>.</span>
+                    <hr class="mb-4">
+                  </div>
+                </form>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnEditUserSave">Save</button>
+              </div>
             </div>
-            <div class="form-group col-sm-6">
-              <label for="user-mobile-2" class="col-form-label">Mobile Number:</label>
-              <input type="text" class="form-control" id="user-mobile-2" placeholder="Ex: 122557193">
-            </div>
-          </div> <!-- ./row-->
-          <div class="form-group">
-            <label for="user-id-2" class="col-form-label">Student ID:</label>
-            <input type="text" class="form-control" id="user-id-2" placeholder="Eg: UMC123456">
           </div>
-          <div class="form-group">
-            <hr class="mb-4">
-            <span class="text-muted">This user <text class="text-dark">organization</text> is <holder
-                class="text-dark" id="txt-org-name-modal-2"></holder>.</span>
-            <hr class="mb-4">
-          </div>
-        </form>
       </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="btnEditUserSave">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-  $('#modal-edit-user').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget) // Button that triggered the modal
-    var organization = button.data('organization') // Extract info from data-* attributes
-    var name = button.data('name')
-    var uniqueId = button.data('unique-id')
-    var phone = button.data('phone')
-    var modal = $(this)
-    modal.find('.modal-title').text('Edit User '+name)
-    $('#user-name-2').val(name);
-    $('#user-mobile-2').val(phone);
-    console.log("organization is:"+organization);
-    $('#user-id-2').val(uniqueId);
-    $('#txt-org-name-modal-2').html(organization);
-    //modal.find('#session-org').val(organization)
-  })
-</script>
-
-<script>
-  console.log("Hello from " + window.location.pathname + window.location.search);
-
-  firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
-      //console.log("user.providerData[0].phoneNumber.substring(1) is " + user.providerData[0].phoneNumber.substring(1));
-      console.log("ayam");
-      db.collection("users").where("phone", "==", user.providerData[0].phoneNumber.substring(1))
-        .get().then(function (userData) {
-          userData.forEach(function (userSingle) {
-            console.log("Current userSingle is: " + userSingle.data().organization);
-            $('#txt-name-top').html(userSingle.data().name);
-            $('#txt-org-name').html(userSingle.data().organization);
-            $('#txt-org-name-table').html(userSingle.data().organization);
-            $('#btn-add-new').attr("data-organization", userSingle.data().organization);
-            $('#txt-org-name-modal').html(userSingle.data().organization);
-            
-            $('#btn-show-users').attr("onClick", 'loadExistingUsers("' + userSingle.data().organization + '")');
-            
-            $('#user-organization-unique-id').val(userSingle.data().organization_unique_id);
-            $('#user-organization').val(userSingle.data().organization);
-            //loadExistingUsers(userSingle.data().organization);
-          })
-        }).then(function () {
-          console.log("Err.... Done?");
-          $('#btn-show-users').removeAttr('disabled');
-        }).catch(function (e) {
-          console.log("Error fetching user details: ", e);
-        });
-
-    } else {
-      console.log("User NOT signed in.");
-    }
-  });
-
-  function loadExistingUsers(orgName) {
-    //console.log("orgName requested is: " + orgName);
-    db.collection("users").where("organization", "==", orgName)
-      .onSnapshot(function (allUsers) {
-
-        var tableBody = document.getElementById('allExistingUsers');
-        while (tableBody.firstChild) {
-          tableBody.removeChild(tableBody.firstChild);
-        }
-        var i = 1;
-
-        allUsers.forEach(function (eachUser) {
-          console.log("Now processing: " + eachUser.data().name);
-
-          var row = document.createElement('tr');
-
-          var cellNum = document.createElement('td');
-          cellNum.appendChild(document.createTextNode(i));
-
-          var cellAction = document.createElement('td');
-          cellAction.innerHTML = '<button class="btn btn-small" ' +
-            'onClick="deleteUser("' + orgName + '","' + eachUser.id + '")" '+
-            'data-toggle="tooltip" data-placement="top" title="Delete User">' +
-            '<i class="far fa-trash-alt text-danger"></i>' +
-            '</button>  '+
-            '<button class="btn btn-small" ' +
-            'onClick="assignUser("' + orgName + '","' + eachUser.id + '")" '+
-            'data-toggle="tooltip" data-placement="right" title="Assign Session">' +
-            '<i class="fas fa-calendar-check text-primary"></i>' +
-            '</button>';
-
-          var cellName = document.createElement('td');
-          cellName.innerHTML = '<a href="#" data-toggle="modal" data-target="#modal-edit-user" '+
-                               ' data-name="'+eachUser.data().name+'" '+
-                               ' data-organization="'+eachUser.data().organization+'" '+
-                               ' data-phone="'+eachUser.data().phone+'" '+
-                               ' data-unique-id="'+eachUser.id+'" '+
-                               ' >'+eachUser.data().name+'</a>';
-
-          var cellId = document.createElement('td');
-          cellId.appendChild(document.createTextNode(eachUser.id));
-
-          var cellPhone = document.createElement('td');
-          cellPhone.appendChild(document.createTextNode(eachUser.data().phone));
-
-          row.appendChild(cellNum);
-          row.appendChild(cellAction);
-          row.appendChild(cellName);
-          row.appendChild(cellId);
-          row.appendChild(cellPhone);
-          tableBody.appendChild(row);
-          i = i + 1;
-        });
-        // Hide show users buttons
-        $('#btn-show-users').hide();
-        // Enable Tooltips
-        $(function () {
-          $('[data-toggle="tooltip"]').tooltip()
+      <script>
+        $('#modal-edit-user').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget) // Button that triggered the modal
+          var organization = button.data('organization') // Extract info from data-* attributes
+          var name = button.data('name')
+          var uniqueId = button.data('unique-id')
+          var phone = button.data('phone')
+          var modal = $(this)
+          modal.find('.modal-title').text('Edit User ' + name)
+          $('#user-name-2').val(name);
+          $('#user-mobile-2').val(phone);
+          console.log("organization is:" + organization);
+          $('#user-id-2').val(uniqueId);
+          $('#txt-org-name-modal-2').html(organization);
+          //modal.find('#session-org').val(organization)
         })
-      }).catch(function(e) {
-        console.log("Error fetching all existing user of " + orgName + " :", e);
-      });
-  }
+      </script>
 
-  function deleteUser(userId, orgName) {
-    document.preventDefault()
-    db.collection("users/").doc(userId).delete().then(function () {
-      console.log("Deleted user " + userId);
-      loadExistingUsers(orgName);
-    }).catch(function (e) {
-      console.log("Error deleting user " + userId + ": ", e);
-    });
-  }
+      <!--
+    MODAL: ASSIGN SESSION TO User
+-->
+      <div class="modal fade" id="modal-assign-session" tabindex="-1" role="dialog"
+        aria-labelledby="modal-assign-session-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modal-assign-session-label">Assign sessions.</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
 
-  $('#btnEditUserSave').on('click', function() {
-    //$(this).preventDefault()
-    db.collection("users/").doc($('#user-id-2').val())
-    .update({
-      name: $('#user-name-2').val(),
-      phone: $('#user-mobile-2').val(),
-    }).then(function () {
-      console.log("saved user ");
-      $('#modal-edit-user').modal('hide')
-    }).catch(function (e) {
-      console.log("Error saving user:", e);
-    });
-  })
+            <div class="modal-body">
+              <p class=""">Simply tick the sessions that is relevant for this user to assign him/her to that session.</p>
+        <table class=" table table-sm table=hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Course Name</th>
+                    <th scope="col">Assign</th>
+                  </tr>
+                </thead>
+                <tbody id="assignTableBody">
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>Larry the Bird</td>
+                  </tr>
+                </tbody>
+                </table>
+            </div>
 
-  $('#btnAddUserSave').on('click', function() {
-    //$(this).preventDefault()
-    db.collection("users/").doc($('#user-id').val())
-    .set({
-      name: $('#user-name').val(),
-      phone: $('#user-mobile').val(),
-      organization: $('#user-organization').val(),
-      organization_unique_id: $('#user-organization-unique-id').val(),
-      unique_id: $('#user-id').val()
-    }, {merge: true}).then(function () {
-      console.log("Saved new user!");
-    }).catch(function (e) {
-      console.log("Error saving new user:", e);
-    });
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    db.collection("auth_users/").doc($('#user-mobile').val())
-    .set({
-      active: true
-    }).then(function () {
-      console.log("Added user auth!");
-      $('#modal-add-user').modal('hide')
-    }).catch(function (e) {
-      console.log("Error saving user auth:", e);
-    });
-  })
+      <script>
+        $('#modal-assign-session').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget) // Button that triggered the modal
+          var organization = button.data('organization') // Extract info from data-* attributes
+          var name = button.data('name')
+          var uniqueId = button.data('unique-id')
+          var mobile = button.data('mobile')
+          var modal = $(this)
+          modal.find('.modal-title').html('Assign session for <text class="text-primary">' + name + '</text> <small classs="text-muted">(' + uniqueId + ')<small>')
+          modal.find('assign_UFE1003').on('click', updateAssignment(mobile))
+        })
+      </script>
 
-</script>
+      <script>
+        console.log("Hello from " + window.location.pathname + window.location.search);
+
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (user) {
+            //console.log("user.providerData[0].phoneNumber.substring(1) is " + user.providerData[0].phoneNumber.substring(1));
+            console.log("ayam");
+            db.collection("users").where("phone", "==", user.providerData[0].phoneNumber.substring(1))
+              .get().then(function (userData) {
+                userData.forEach(function (userSingle) {
+                  console.log("Current userSingle is: " + userSingle.data().organization);
+                  $('#txt-name-top').html(userSingle.data().name);
+                  $('#txt-org-name').html(userSingle.data().organization);
+                  $('#txt-org-name-table').html(userSingle.data().organization);
+                  $('#btn-add-new').attr("data-organization", userSingle.data().organization);
+                  $('#txt-org-name-modal').html(userSingle.data().organization);
+
+                  $('#btn-show-users').attr("onClick", 'loadExistingUsers("' + userSingle.data().organization + '")');
+
+                  $('#user-organization-unique-id').val(userSingle.data().organization_unique_id);
+                  $('#user-organization').val(userSingle.data().organization);
+                  //loadExistingUsers(userSingle.data().organization);
+                })
+
+                // Populate Modal Body Table for Assinment
+                db.collection("sessions/UMC/2019-4/")
+                  .get().then(function (allSessions) {
+
+                    var tableBody = document.getElementById('assignTableBody');
+                    while (tableBody.firstChild) {
+                      tableBody.removeChild(tableBody.firstChild);
+                    }
+
+                    allSessions.forEach(function (eachSession) {
+                      console.log("Now eachSession: " + eachSession.data().session_name);
+
+                      var row = document.createElement('tr');
+
+                      var cellName = document.createElement('td');
+                      cellName.appendChild(document.createTextNode(eachSession.data().session_name));
+
+                      var cellAction = document.createElement('td');
+                      cellAction.innerHTML = '<form> ' +
+                        '<div class="form-check"> ' +
+                        '  <input type="checkbox" class="form-check-input" id="assign_' + eachSession.data().session_code + '"> ' +
+                        '  <label class="sr-only" for="exampleCheck1">Assign User</label> ' +
+                        '</div>'
+                      '</form>';
+
+                      var cellActionNew = document.createElement('td');
+                      cellActionNew.innerHTML = '<a href="#" id="assign_' + eachSession.data().session_code + '"><span class="label label-success">Assign</span></a>';
+
+                      row.appendChild(cellName);
+                      row.appendChild(cellActionNew);
+                      tableBody.appendChild(row);
+                    });
+
+                  }).catch(function (e) {
+                    console.log("Error getting list of sessions:", e);
+                  });
+
+
+              }).then(function () {
+                console.log("Err.... Done?");
+                $('#btn-show-users').removeAttr('disabled');
+              }).catch(function (e) {
+                console.log("Error fetching user details: ", e);
+              });
+
+          } else {
+            console.log("User NOT signed in.");
+          }
+        });
+
+        function loadExistingUsers(orgName) {
+          //console.log("orgName requested is: " + orgName);
+          db.collection("users").where("organization", "==", orgName)
+            .onSnapshot(function (allUsers) {
+
+              var tableBody = document.getElementById('allExistingUsers');
+              while (tableBody.firstChild) {
+                tableBody.removeChild(tableBody.firstChild);
+              }
+              var i = 1;
+
+              allUsers.forEach(function (eachUser) {
+                console.log("Now processing: " + eachUser.data().name);
+
+                var row = document.createElement('tr');
+
+                var cellNum = document.createElement('td');
+                cellNum.appendChild(document.createTextNode(i));
+
+                var cellAction = document.createElement('td');
+                cellAction.innerHTML = '<button class="btn btn-small" ' +
+                  'onClick="deleteUser("' + orgName + '","' + eachUser.id + '")" ' +
+                  'data-toggle="tooltip" data-placement="top" title="Delete User">' +
+                  '<i class="far fa-trash-alt text-danger"></i>' +
+                  '</button>  ' +
+                  '<button class="btn btn-small" ' +
+                  ' data-toggle="modal" data-target="#modal-assign-session" ' +
+                  ' data-unique-id="' + eachUser.id + '" ' +
+                  ' data-name="' + eachUser.data().name + '" ' +
+                  ' data-mobile="' + eachUser.data().phone + '" ' +
+                  ' data-toggle="tooltip" data-placement="right" title="Assign Session">' +
+                  '<i class="fas fa-calendar-check text-primary"></i>' +
+                  '</button>';
+
+                var cellName = document.createElement('td');
+                cellName.innerHTML = '<a href="#" data-toggle="modal" data-target="#modal-edit-user" ' +
+                  ' data-name="' + eachUser.data().name + '" ' +
+                  ' data-organization="' + eachUser.data().organization + '" ' +
+                  ' data-phone="' + eachUser.data().phone + '" ' +
+                  ' data-unique-id="' + eachUser.id + '" ' +
+                  ' >' + eachUser.data().name + '</a>';
+
+                var cellId = document.createElement('td');
+                cellId.appendChild(document.createTextNode(eachUser.id));
+
+                var cellPhone = document.createElement('td');
+                cellPhone.appendChild(document.createTextNode(eachUser.data().phone));
+
+                row.appendChild(cellNum);
+                row.appendChild(cellAction);
+                row.appendChild(cellName);
+                row.appendChild(cellId);
+                row.appendChild(cellPhone);
+                tableBody.appendChild(row);
+                i = i + 1;
+              });
+              // Hide show users buttons
+              $('#btn-show-users').hide();
+              // Enable Tooltips
+              $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+              })
+            }).catch(function (e) {
+              console.log("Error fetching all existing user of " + orgName + " :", e);
+            });
+        }
+
+        function deleteUser(userId, orgName) {
+          document.preventDefault()
+          db.collection("users/").doc(userId).delete().then(function () {
+            console.log("Deleted user " + userId);
+            loadExistingUsers(orgName);
+          }).catch(function (e) {
+            console.log("Error deleting user " + userId + ": ", e);
+          });
+        }
+
+        $('#btnEditUserSave').on('click', function () {
+          //$(this).preventDefault()
+          db.collection("users/").doc($('#user-id-2').val())
+            .update({
+              name: $('#user-name-2').val(),
+              phone: $('#user-mobile-2').val(),
+            }).then(function () {
+              console.log("saved user ");
+              $('#modal-edit-user').modal('hide')
+            }).catch(function (e) {
+              console.log("Error saving user:", e);
+            });
+        })
+
+        $('#btnAddUserSave').on('click', function () {
+          //$(this).preventDefault()
+          db.collection("users/").doc($('#user-id').val())
+            .set({
+              name: $('#user-name').val(),
+              phone: $('#user-mobile').val(),
+              organization: $('#user-organization').val(),
+              organization_unique_id: $('#user-organization-unique-id').val(),
+              unique_id: $('#user-id').val()
+            }, { merge: true }).then(function () {
+              console.log("Saved new user!");
+            }).catch(function (e) {
+              console.log("Error saving new user:", e);
+            });
+
+          db.collection("auth_users/").doc($('#user-mobile').val())
+            .set({
+              active: true
+            }).then(function () {
+              console.log("Added user auth!");
+              $('#modal-add-user').modal('hide')
+            }).catch(function (e) {
+              console.log("Error saving user auth:", e);
+            });
+        })
+
+        function updateAssignment(mobile) {
+          console.log("updateAssignment called!");
+
+          // Create a reference to the SF doc.
+          var sfDocRef = db.collection("sessions/UMC/2019-4/").doc("ZQiQQSsr6SCHOI0PfqoB");
+          return db.runTransaction(function (transaction) {
+            // This code may get re-run multiple times if there are conflicts.
+            return transaction.get(sfDocRef).then(function (sfDoc) {
+              if (!sfDoc.exists) {
+                throw "Document does not exist!";
+              }
+              var existingParticipants = sfDoc.data().session_participants;
+              existingParticipants.push(String(mobile));
+              console.log("New existingParticipants is: " + JSON.stringify(existingParticipants));
+              transaction.update(sfDocRef, { session_participants: existingParticipants });
+            });
+          }).then(function () {
+            console.log("Transaction successfully committed!");
+            $('#modal-assign-session').modal('hide');
+          }).catch(function (error) {
+            console.log("Transaction failed: ", error);
+          });
+        }
+
+      </script>
