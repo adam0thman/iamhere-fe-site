@@ -1,16 +1,19 @@
-<h2 class="text-info">Manage Users <small class="text-muted">For <holder id="txt-org-name"></holder></small> <button class="btn btn-outline-secondary" id="btn-show-users" disabled="disabled">Show Users</button></h2>
+<h2 class="text-info">Manage Users <small class="text-muted">For <holder id="txt-org-name"></holder></small> <button
+    class="btn btn-outline-secondary" id="btn-show-users" disabled="disabled">Show Users</button></h2>
 
 <hr class="mb-12">
 
 <form class="form-inline">
   <div class="form-group mb-2">
     <label for="staticfilter" class="sr-only">Search </label>
-    <input id="staticfilter"  type="search" class="form-control-plaintext light-table-filter" data-table="order-table" placeholder="Search keyword here..">
+    <input id="staticfilter" type="search" class="form-control-plaintext light-table-filter" data-table="order-table"
+      placeholder="Search keyword here..">
   </div>
 </form>
 <div class="table-responsive">
   <table class="sortable table table-striped table-hover table-sm order-table">
-    <caption>Existing users for <holder id="txt-org-name-table"></holder></caption>
+    <caption>Existing users for <holder id="txt-org-name-table"></holder>
+    </caption>
     <thead>
       <tr>
         <th>#</th>
@@ -26,167 +29,293 @@
 </div>
 <hr class="mb-4">
 <center class="align-center">
-    <button type="button" class="btn btn-outline-primary" id="btn-add-new" data-toggle="modal" data-target="#modal-add-user">Add New User</button>
-    <button type="button" class="btn btn-outline-secondary">Bulk Add New User</button>
+  <button type="button" class="btn btn-outline-primary" id="btn-add-new" data-toggle="modal"
+    data-target="#modal-add-user">Add New User</button>
+  <button type="button" class="btn btn-outline-secondary">Bulk Add New User</button>
 </center>
 
 
 <!--
     MODAL: Add New User
 -->
-<div class="modal fade" id="modal-add-user" tabindex="-1" role="dialog" aria-labelledby="modal-add-user-label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modal-add-user-label">Add New User</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <label for="user-name" class="col-form-label">Full Name:</label>
-              <input type="text" class="form-control" id="user-name" placeholder="Eg: Muhammad Bin Abdullah">
+<div class="modal fade" id="modal-add-user" tabindex="-1" role="dialog" aria-labelledby="modal-add-user-label"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-add-user-label">Add New User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="user-name" class="col-form-label">Full Name:</label>
+            <input type="text" class="form-control" id="user-name" placeholder="Eg: Muhammad Bin Abdullah">
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6">
+              <label for="user-mobile-country" class="col-form-label">Country Code:</label>
+              <select class="form-control">
+                <option value="60">Malaysia (+60)</option>
+              </select>
             </div>
-            <div class="row">
-              <div class="form-group col-sm-6">
-                    <label for="user-mobile-country" class="col-form-label">Country Code:</label>
-                    <select class="form-control">
-                      <option value="60">Malaysia (+60)</option>
-                    </select>
-              </div>
-              <div class="form-group col-sm-6">
-                  <label for="user-mobile" class="col-form-label">Mobile Number:</label>
-                  <input type="text" class="form-control" id="user-mobile" placeholder="Ex: 122557193">
+            <div class="form-group col-sm-6">
+              <label for="user-mobile" class="col-form-label">Mobile Number:</label>
+              <input type="text" class="form-control" id="user-mobile" placeholder="Ex: 122557193">
             </div>
           </div> <!-- ./row-->
-            <div class="form-group">
-              <label for="user-id" class="col-form-label">Student ID:</label>
-              <input type="text" class="form-control" id="user-ic" placeholder="Eg: UMC123456">
-            </div>
           <div class="form-group">
-              <hr class="mb-4" >
-              <span class="text-muted">This user <text class="text-dark">Organization</text> will be set to <holder class="text-dark" id="txt-org-name-modal"></holder>.</span>
-              <hr class="mb-4" >
-            </div>
-          </form>
-        </div>
+            <label for="user-id" class="col-form-label">Student ID:</label>
+            <input type="text" class="form-control" id="user-id" placeholder="Eg: UMC123456">
+          </div>
+          <div class="form-group">
+            <hr class="mb-4">
+            <span class="text-muted">This user's <text class="text-dark">organization</text> will be set to <holder
+                class="text-dark" id="txt-org-name-modal"></holder>.</span>
+            <hr class="mb-4">
+          </div>
+          <input type="hidden" id="user-organization-unique-id">
+          <input type="hidden" id="user-organization">
+        </form>
+      </div>
 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Add & Assign User</button>
-        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="btnAddUserSave"">Add & Assign User</button>
       </div>
     </div>
   </div>
-  
-  <script>
-    $('#modal-add-user').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget) // Button that triggered the modal
-      var organization = button.data('organization') // Extract info from data-* attributes
-      var modal = $(this)
-      modal.find('.modal-title').text(organization+': Add & Assign New User')
-      //modal.find('#session-org').val(organization)
-    })
-  </script>
-
+</div>
 
 <script>
-  console.log("Hello from "+window.location.pathname+window.location.search); 
-  
-  firebase.auth().onAuthStateChanged(function(user) {
+  $('#modal-add-user').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var organization = button.data('organization') // Extract info from data-* attributes
+    var modal = $(this)
+    modal.find('.modal-title').text(organization + ': Add & Assign New User')
+    //modal.find('#session-org').val(organization)
+  })
+</script>
+
+<!--
+    MODAL: EDIT User
+-->
+<div class="modal fade" id="modal-edit-user" tabindex="-1" role="dialog" aria-labelledby="modal-edit-user-label"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-edit-user-label">Edit user</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="user-name-2" class="col-form-label">Full Name:</label>
+            <input type="text" class="form-control" id="user-name-2" placeholder="Eg: Muhammad Bin Abdullah">
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6">
+              <label for="user-mobile-country" class="col-form-label">Country Code:</label>
+              <select class="form-control" disabled>
+                <option value="60">Malaysia (+60)</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-6">
+              <label for="user-mobile-2" class="col-form-label">Mobile Number:</label>
+              <input type="text" class="form-control" id="user-mobile-2" placeholder="Ex: 122557193">
+            </div>
+          </div> <!-- ./row-->
+          <div class="form-group">
+            <label for="user-id-2" class="col-form-label">Student ID:</label>
+            <input type="text" class="form-control" id="user-id-2" placeholder="Eg: UMC123456">
+          </div>
+          <div class="form-group">
+            <hr class="mb-4">
+            <span class="text-muted">This user <text class="text-dark">organization</text> is <holder
+                class="text-dark" id="txt-org-name-modal-2"></holder>.</span>
+            <hr class="mb-4">
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="btnEditUserSave">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('#modal-edit-user').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var organization = button.data('organization') // Extract info from data-* attributes
+    var name = button.data('name')
+    var uniqueId = button.data('unique-id')
+    var phone = button.data('phone')
+    var modal = $(this)
+    modal.find('.modal-title').text('Edit User '+name)
+    $('#user-name-2').val(name);
+    $('#user-mobile-2').val(phone);
+    console.log("organization is:"+organization);
+    $('#user-id-2').val(uniqueId);
+    $('#txt-org-name-modal-2').html(organization);
+    //modal.find('#session-org').val(organization)
+  })
+</script>
+
+<script>
+  console.log("Hello from " + window.location.pathname + window.location.search);
+
+  firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
-      console.log("user.providerData[0].phoneNumber.substring(1) is "+user.providerData[0].phoneNumber.substring(1));
-      
-      db.collection("users").where("phone","==",user.providerData[0].phoneNumber.substring(1))
-      .get().then(function(userData) {
-        userData.forEach(function(userSingle) {
-          console.log("Current userSingle is: "+userSingle.data().organization);
-          $('#txt-name-top').html(userSingle.data().name);
-          $('#txt-org-name').html(userSingle.data().organization);
-          $('#txt-org-name-table').html(userSingle.data().organization);
-          $('#btn-add-new').attr("data-organization",userSingle.data().organization);
-          $('#txt-org-name-modal').html(userSingle.data().organization);
-          $('#btn-show-users').attr("onClick", 'loadExistingUsers("'+userSingle.data().organization+'")');
-          //loadExistingUsers(userSingle.data().organization);
-        })
-      }).then(function() {
-        console.log("Err.... Done?");
-        $('#btn-show-users').removeAttr('disabled');
-      }).catch(function(e) {
-        console.log("Error fetching user details: ", e);
-      });
+      //console.log("user.providerData[0].phoneNumber.substring(1) is " + user.providerData[0].phoneNumber.substring(1));
+      console.log("ayam");
+      db.collection("users").where("phone", "==", user.providerData[0].phoneNumber.substring(1))
+        .get().then(function (userData) {
+          userData.forEach(function (userSingle) {
+            console.log("Current userSingle is: " + userSingle.data().organization);
+            $('#txt-name-top').html(userSingle.data().name);
+            $('#txt-org-name').html(userSingle.data().organization);
+            $('#txt-org-name-table').html(userSingle.data().organization);
+            $('#btn-add-new').attr("data-organization", userSingle.data().organization);
+            $('#txt-org-name-modal').html(userSingle.data().organization);
+            
+            $('#btn-show-users').attr("onClick", 'loadExistingUsers("' + userSingle.data().organization + '")');
+            
+            $('#user-organization-unique-id').val(userSingle.data().organization_unique_id);
+            $('#user-organization').val(userSingle.data().organization);
+            //loadExistingUsers(userSingle.data().organization);
+          })
+        }).then(function () {
+          console.log("Err.... Done?");
+          $('#btn-show-users').removeAttr('disabled');
+        }).catch(function (e) {
+          console.log("Error fetching user details: ", e);
+        });
 
     } else {
       console.log("User NOT signed in.");
     }
   });
-  
+
   function loadExistingUsers(orgName) {
-    console.log("orgName requested is: "+orgName);
-    db.collection("users").where("organization","==",orgName)
-    .get().then(function(allUsers) {
+    //console.log("orgName requested is: " + orgName);
+    db.collection("users").where("organization", "==", orgName)
+      .onSnapshot(function (allUsers) {
 
-      var tableBody = document.getElementById('allExistingUsers');
-      while (tableBody.firstChild) {
-        tableBody.removeChild(tableBody.firstChild);
-      }
-      var i = 1;
+        var tableBody = document.getElementById('allExistingUsers');
+        while (tableBody.firstChild) {
+          tableBody.removeChild(tableBody.firstChild);
+        }
+        var i = 1;
 
-      allUsers.forEach(function(eachUser) {
-        console.log("Now processing: "+eachUser.data().name);
+        allUsers.forEach(function (eachUser) {
+          console.log("Now processing: " + eachUser.data().name);
 
-        var row = document.createElement('tr');
- 
-        var cellNum = document.createElement('td');
-        cellNum.appendChild(document.createTextNode(i));
-        
-        var cellDelete = document.createElement('td');
-        cellDelete.innerHTML = '<button class="btn btn-small" '+
-                               'onClick="deleteUser("'+orgName+'","'+eachUser.data().unique_id.trim()+'")">'+
-                               '<i class="far fa-trash-alt text-danger"></i>'+
-                               '</button>';
-        //cellDelete.innerHTML = '<button class="btn btn-small" onClick="adam()"><i class="far fa-trash-alt text-danger"></i></button>';
-        
+          var row = document.createElement('tr');
 
-        var cellName = document.createElement('td');
-        cellName.appendChild(document.createTextNode(eachUser.data().name));
-        
-        var cellId = document.createElement('td');
-        cellId.appendChild(document.createTextNode(eachUser.data().unique_id));
+          var cellNum = document.createElement('td');
+          cellNum.appendChild(document.createTextNode(i));
 
-        var cellPhone = document.createElement('td');
-        cellPhone.appendChild(document.createTextNode(eachUser.data().phone));
+          var cellAction = document.createElement('td');
+          cellAction.innerHTML = '<button class="btn btn-small" ' +
+            'onClick="deleteUser("' + orgName + '","' + eachUser.id + '")" '+
+            'data-toggle="tooltip" data-placement="top" title="Delete User">' +
+            '<i class="far fa-trash-alt text-danger"></i>' +
+            '</button>  '+
+            '<button class="btn btn-small" ' +
+            'onClick="assignUser("' + orgName + '","' + eachUser.id + '")" '+
+            'data-toggle="tooltip" data-placement="right" title="Assign Session">' +
+            '<i class="fas fa-calendar-check text-primary"></i>' +
+            '</button>';
 
-        row.appendChild(cellNum);
-        row.appendChild(cellDelete);
-        row.appendChild(cellName);
-        row.appendChild(cellId);
-        row.appendChild(cellPhone);
-        tableBody.appendChild(row);
-        i=i+1;                    
-      })
+          var cellName = document.createElement('td');
+          cellName.innerHTML = '<a href="#" data-toggle="modal" data-target="#modal-edit-user" '+
+                               ' data-name="'+eachUser.data().name+'" '+
+                               ' data-organization="'+eachUser.data().organization+'" '+
+                               ' data-phone="'+eachUser.data().phone+'" '+
+                               ' data-unique-id="'+eachUser.id+'" '+
+                               ' >'+eachUser.data().name+'</a>';
 
-    }).then(function() {
-      $('#btn-show-users').hide();
-    }).catch(function(e) {
-      console.log("Error fetching all existing user of "+orgName+" :", e);
+          var cellId = document.createElement('td');
+          cellId.appendChild(document.createTextNode(eachUser.id));
+
+          var cellPhone = document.createElement('td');
+          cellPhone.appendChild(document.createTextNode(eachUser.data().phone));
+
+          row.appendChild(cellNum);
+          row.appendChild(cellAction);
+          row.appendChild(cellName);
+          row.appendChild(cellId);
+          row.appendChild(cellPhone);
+          tableBody.appendChild(row);
+          i = i + 1;
+        });
+        // Hide show users buttons
+        $('#btn-show-users').hide();
+        // Enable Tooltips
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        })
+      }).catch(function(e) {
+        console.log("Error fetching all existing user of " + orgName + " :", e);
+      });
+  }
+
+  function deleteUser(userId, orgName) {
+    document.preventDefault()
+    db.collection("users/").doc(userId).delete().then(function () {
+      console.log("Deleted user " + userId);
+      loadExistingUsers(orgName);
+    }).catch(function (e) {
+      console.log("Error deleting user " + userId + ": ", e);
     });
   }
-  
-function deleteUser(userId, orgName) {
-  document.preventDefault()
-  db.collection("users/").doc(userId).delete().then(function() {
-    console.log("Deleted user "+userId);
-    loadExistingUsers(orgName);
-  }).catch(function(e) {
-    console.log("Error deleting user "+userId+": ",e);
-  });
-}
 
-function adam() {
-  console.log("Adam clicked!");
-}
+  $('#btnEditUserSave').on('click', function() {
+    //$(this).preventDefault()
+    db.collection("users/").doc($('#user-id-2').val())
+    .update({
+      name: $('#user-name-2').val(),
+      phone: $('#user-mobile-2').val(),
+    }).then(function () {
+      console.log("saved user ");
+      $('#modal-edit-user').modal('hide')
+    }).catch(function (e) {
+      console.log("Error saving user:", e);
+    });
+  })
+
+  $('#btnAddUserSave').on('click', function() {
+    //$(this).preventDefault()
+    db.collection("users/").doc($('#user-id').val())
+    .set({
+      name: $('#user-name').val(),
+      phone: $('#user-mobile').val(),
+      organization: $('#user-organization').val(),
+      organization_unique_id: $('#user-organization-unique-id').val(),
+      unique_id: $('#user-id').val()
+    }, {merge: true}).then(function () {
+      console.log("Saved new user!");
+    }).catch(function (e) {
+      console.log("Error saving new user:", e);
+    });
+
+    db.collection("auth_users/").doc($('#user-mobile').val())
+    .set({
+      active: true
+    }).then(function () {
+      console.log("Added user auth!");
+      $('#modal-add-user').modal('hide')
+    }).catch(function (e) {
+      console.log("Error saving user auth:", e);
+    });
+  })
 
 </script>
